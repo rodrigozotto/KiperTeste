@@ -67,7 +67,7 @@
                 @Html.DisplayFor(modelItem => item.id_apartamento)
             </td>
             <td>
-                <a href="@Url.Action("AddOrEdit", "Morador", new {id = item.id})" class="btn btn-default" id="btnEditar">
+                <a href="@Url.Action("AddOrEdit", "Apartamento", new {id = item.id_apartamento})" class="btn btn-default" id="btnEditar">
                     <i class="fa fa-edit"></i> Editar
                 </a>
                 <a href="@Url.Action("Delete", "Morador", new {id = item.id})" class="btn btn-danger" id="btnExcluir">

@@ -144,7 +144,20 @@
                     $("#data_nascimento").val(dataNascimento);
                     $("#telefone").val(data.Morador.telefone);
                 });
-            }
+            },
+             DeletarMorador: function (id_morador, id_apartamento) {
+                 var url = "@Url.Action("Delete", "Morador")/" + id_morador;
+
+                 if (confirm('Deseja excluir o morador?')) {
+                     $.ajax({
+                         url: url
+                         , type: "POST"
+                         , datatype: "json"
+                     }).done(function (data) {
+                         location.href = "/apartamento/AddOrEdit/" + id_apartamento;
+                     });
+                 }
+            },
         }
 
         Apartamento.Inicio();
