@@ -1,0 +1,80 @@
+﻿@model IEnumerable<WebApp.Models.MoradorModel>
+
+@{
+    ViewBag.Title = "Morador";
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
+    
+
+    <p>
+        <h3>Morador</h3>
+        <div class="linha-botoes">
+            <!--Novo Pedido-->
+            <a href="@Url.Action("AddOrEdit", "Morador")" class="btn btn-info" id="btnNovo">
+                <i class="fa fa-money"></i> Novo Morador
+            </a>
+        </div>
+        <br />
+    </p>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.nome)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.cpf)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.data_nascimento)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.telefone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.id_apartamento)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.cpf)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.data_nascimento)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.telefone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.id_apartamento)
+            </td>
+            <td>
+                <a href="@Url.Action("AddOrEdit", "Morador", new {id = item.id})" class="btn btn-default" id="btnEditar">
+                    <i class="fa fa-edit"></i> Editar
+                </a>
+                <a href="@Url.Action("Delete", "Morador", new {id = item.id})" class="btn btn-danger" id="btnExcluir">
+                    <i class="fa fa-trash"></i> Excluir
+                </a>
+            </td>
+        </tr>
+    }
+
+</table>

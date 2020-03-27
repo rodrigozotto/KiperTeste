@@ -1,0 +1,156 @@
+﻿@model WebApp.Models.ApartamentoModel
+
+@{
+    ViewBag.Title = "Editar apartamento";
+}
+
+@Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <h4>Apartamento</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.id)
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.numero, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.numero, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.numero, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.bloco, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.bloco, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.bloco, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="button" value="Salvar" onclick="Apartamento.Salvar()" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+
+<div id="divMoradores" style="display:none"></div>
+
+<div>
+    <a href="@Url.Action("Index", "Apartamento")" class="btn btn-default" id="btnVoltar">
+        <i class="fa fa-edit"></i> Voltar
+    </a>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+
+        var Apartamento = {
+            Inicio: function () {
+
+                if ('@Model.id' != '0') {
+                    this.ListarMoradores(@Model.id);
+                }
+            },
+            Salvar: function () {
+                if (this.validar()) {
+                    var url = "@Url.Action("AddOrEdit", "Apartamento")";
+                    var data = { id: @Model.id, numero: $("#numero").val(), bloco: $("#bloco").val()};
+
+                    $.ajax({
+                        url: url
+                        , type: "POST"
+                        , datatype: "json"
+                        , data: data
+                    }).done(function (data) {
+                        debugger;
+                        if (data.Id == 0)
+                            location.href = "@Url.Action("Index", "Apartamento")";
+                        this.ListarMoradores(data.Id);
+                    });
+                }
+            },
+            validar: function () {
+                return true;
+            },
+            ListarMoradores: function (id) {
+                  var url = "@Url.Action("ListarMoradores", "Apartamento")"  + "/" + id;
+
+                  $.ajax({
+                        url: url
+                        , type: "GET"
+                        , datatype: "json"
+                    }).done(function (data) {
+                        divMoradores = $("#divMoradores");
+                        divMoradores.empty();
+                        divMoradores.show();
+                        divMoradores.html(data);
+                        $('#data_nascimento').datepicker({
+                            dateFormat: "dd/mm/yy",
+                            showStatus: true,
+                            showWeeks: true,
+                            currentText: 'Now',
+                            autoSize: true,
+                            gotoCurrent: true,
+                            showAnim: 'blind',
+                            highlightWeek: true
+                        });
+                    });
+            },
+            SalvarMorador: function () {
+                var url = "@Url.Action("SalvarMorador", "Morador")";
+
+                var dataNascimento = '';
+
+                var data = {
+                    id: $("#id_morador").val(),
+                    id_apartamento: $("#id_apartamento").val(),
+                    nome: $("#nome").val(),
+                    cpf: $("#cpf").val(),
+                    email: $("#email").val(),
+                    data_nascimento: $("#data_nascimento").val(),
+                    telefone: $("#telefone").val()
+                };
+
+                $.ajax({
+                    url: url
+                    , type: "POST"
+                    , datatype: "json"
+                    , data: data
+                }).done(function (data) {
+                    location.href = "/apartamento/AddOrEdit/" + data.id;
+                });
+            },
+            CarregarMorador: function (id_morador, id_apartamento) {
+                var url = "@Url.Action("CarregarMorador", "Apartamento")/" + id_morador;
+
+                $.ajax({
+                    url: url
+                    , type: "GET"
+                    , datatype: "json"
+                }).done(function (data) {
+                    debugger
+                    var dataNascimento = '';
+                    if (data.Morador.data_nascimento)
+                        dataNascimento = new Date(parseInt(data.Morador.data_nascimento.substr(6))).toLocaleDateString();
+
+                    $("#id_morador").val(data.Morador.id),
+                    $("#id_apartamento").val(data.Morador.id_apartamento);
+                    $("#nome").val(data.Morador.nome);
+                    $("#cpf").val(data.Morador.cpf);
+                    $("#email").val(data.Morador.email);
+                    $("#data_nascimento").val(dataNascimento);
+                    $("#telefone").val(data.Morador.telefone);
+                });
+            }
+        }
+
+        Apartamento.Inicio();
+
+
+    </script>
+}
+
+

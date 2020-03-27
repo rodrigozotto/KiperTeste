@@ -1,0 +1,23 @@
+﻿CREATE DATABASE `gestao_condominio` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+
+use gestao_condominio;
+
+CREATE TABLE `apartamento` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `numero` varchar(10) DEFAULT NULL,
+  `bloco` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=latin1;
+
+CREATE TABLE `morador` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nome` varchar(150) DEFAULT NULL,
+  `cpf` varchar(45) DEFAULT NULL,
+  `email` varchar(45) DEFAULT NULL,
+  `data_nascimento` datetime DEFAULT NULL,
+  `telefone` varchar(45) DEFAULT NULL,
+  `id_apartamento` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_APARTAMENTO_idx` (`id_apartamento`),
+  CONSTRAINT `FK_APARTAMENTO` FOREIGN KEY (`id_apartamento`) REFERENCES `apartamento` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;

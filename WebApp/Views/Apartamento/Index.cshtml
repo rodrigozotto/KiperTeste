@@ -1,0 +1,72 @@
+﻿@model IEnumerable<WebApp.Models.ApartamentoModel>
+
+@{
+    ViewBag.Title = "Apartamentos";
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
+<h3>Apartamentos</h3>
+
+<p>
+    <!-- PESQUISA -->
+    <div class="form-inline well">
+        <div class="row">
+            <div class="col-md-9 text-left">
+                <label for="numero" class="col-md-3" style="margin-top: 10px !important;">Número do apartamento :</label>
+                <input type="text" id="numero" class="form-control col-md-9" />
+            </div>
+
+            <div class="col-md-3 text-right">
+                <a href="#" id="buscaPedido" title="Buscar Pedidos" class="btn btn-info"><i class="fa fa-search"></i> Buscar</a>
+                <a href="#" id="limparPedido" title="Limpar Pedidos" class="btn btn-danger"><i class="fa fa-trash"></i> Limpar</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="linha-botoes">
+        <!--Novo Pedido-->
+        <a href="@Url.Action("AddOrEdit", "Apartamento")" class="btn btn-info" id="btnNovoPedido">
+            <i class="fa fa-money"></i> Novo Apartamento
+        </a>
+    </div>
+    <br />
+
+
+</p>
+<table class="table table-hover">
+    <tr>
+        <th>
+            Número
+        </th>
+        <th>
+            Bloco
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.numero)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.bloco)
+            </td>
+            <td>
+                <a href="@Url.Action("AddOrEdit", "Apartamento", new {id = item.id})" class="btn btn-default" id="btnEditar">
+                    <i class="fa fa-edit"></i> Editar
+                </a>
+                <a href="@Url.Action("Delete", "Apartamento", new {id = item.id})" class="btn btn-danger" id="btnExcluir">
+                    <i class="fa fa-trash"></i> Excluir
+                </a>
+
+            </td>
+        </tr>
+    }
+
+</table>

@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="GestaoCondominioModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="8.0" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="apartamento">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="numero" Type="varchar" MaxLength="10" />
+          <Property Name="bloco" Type="varchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="morador">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nome" Type="varchar" MaxLength="150" />
+          <Property Name="cpf" Type="varchar" MaxLength="45" />
+          <Property Name="email" Type="varchar" MaxLength="45" />
+          <Property Name="data_nascimento" Type="datetime" Precision="0" />
+          <Property Name="telefone" Type="varchar" MaxLength="45" />
+          <Property Name="id_apartamento" Type="int" />
+        </EntityType>
+        <Association Name="FK_APARTAMENTO">
+          <End Role="apartamento" Type="Self.apartamento" Multiplicity="0..1" />
+          <End Role="morador" Type="Self.morador" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="apartamento">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="morador">
+              <PropertyRef Name="id_apartamento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GestaoCondominioModelStoreContainer">
+          <EntitySet Name="apartamento" EntityType="Self.apartamento" Schema="gestao_condominio" store:Type="Tables" />
+          <EntitySet Name="morador" EntityType="Self.morador" Schema="gestao_condominio" store:Type="Tables" />
+          <AssociationSet Name="FK_APARTAMENTO" Association="Self.FK_APARTAMENTO">
+            <End Role="apartamento" EntitySet="apartamento" />
+            <End Role="morador" EntitySet="morador" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="GestaoCondominioModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="apartamento">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="numero" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="bloco" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="morador" Relationship="Self.FK_APARTAMENTO" FromRole="apartamento" ToRole="morador" />
+        </EntityType>
+        <EntityType Name="morador">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nome" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="cpf" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="data_nascimento" Type="DateTime" />
+          <Property Name="telefone" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="id_apartamento" Type="Int32" />
+          <NavigationProperty Name="apartamento" Relationship="Self.FK_APARTAMENTO" FromRole="morador" ToRole="apartamento" />
+        </EntityType>
+        <Association Name="FK_APARTAMENTO">
+          <End Type="Self.apartamento" Multiplicity="0..1" Role="apartamento" />
+          <End Type="Self.morador" Multiplicity="*" Role="morador" />
+          <ReferentialConstraint>
+            <Principal Role="apartamento">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="morador">
+              <PropertyRef Name="id_apartamento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GestaoCondominioEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="apartamento" EntityType="Self.apartamento" />
+          <EntitySet Name="morador" EntityType="Self.morador" />
+          <AssociationSet Name="FK_APARTAMENTO" Association="Self.FK_APARTAMENTO">
+            <End EntitySet="apartamento" Role="apartamento" />
+            <End EntitySet="morador" Role="morador" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="GestaoCondominioModelStoreContainer" CdmEntityContainer="GestaoCondominioEntities">
+          <EntitySetMapping Name="apartamento">
+            <EntityTypeMapping TypeName="GestaoCondominioModel.apartamento">
+              <MappingFragment StoreEntitySet="apartamento">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="numero" ColumnName="numero" />
+                <ScalarProperty Name="bloco" ColumnName="bloco" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="morador">
+            <EntityTypeMapping TypeName="GestaoCondominioModel.morador">
+              <MappingFragment StoreEntitySet="morador">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nome" ColumnName="nome" />
+                <ScalarProperty Name="cpf" ColumnName="cpf" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="data_nascimento" ColumnName="data_nascimento" />
+                <ScalarProperty Name="telefone" ColumnName="telefone" />
+                <ScalarProperty Name="id_apartamento" ColumnName="id_apartamento" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

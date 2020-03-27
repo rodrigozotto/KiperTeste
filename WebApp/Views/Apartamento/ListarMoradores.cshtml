@@ -1,0 +1,101 @@
+﻿@model IEnumerable<WebApp.Models.MoradorModel>
+
+<h4>Moradores</h4>
+<div class="form-horizontal" style="background: #eeeeee; border: solid 1px #ccc;  padding: 10px; text-align: left">
+
+    <input id="id_apartamento" type="hidden" value="@ViewBag.IdApartamento">
+    <input id="id_morador" type="hidden" value="">
+
+    <div class="form-group">
+
+        <div class="col-md-5">
+            <label class="control-label col-md-2" for="cpf">Cpf</label>
+            <input class="form-control text-box single-line" id="cpf" name="cpf" type="text" value="@if (ViewBag.Morador != null) { @ViewBag.Morador.cpf }">
+        </div>
+        <div class="col-md-7">
+            <label class="control-label col-md-4" for="nome">Nome</label>
+            <input class="form-control text-box single-line" id="nome" name="nome" type="text">
+        </div>
+        <div class="col-md-5">
+            <label class="control-label col-md-2" for="email">E-mail</label>
+            <input class="form-control text-box single-line" id="email" name="email" type="text">
+        </div>
+
+        <div class="col-md-7">
+            <label class="control-label col-md-4" for="data_nascimento">Data nascimento</label>
+            <input class="form-control text-box single-line" id="data_nascimento" name="data_nascimento" type="text" autocomplete="off">
+        </div>
+
+        <div class="col-md-5">
+            <label class="control-label col-md-2" for="telefone">Telefone</label>
+            <input class="form-control text-box single-line" id="telefone" name="telefone" type="text">
+        </div>
+
+        <div class="col-md-10">
+            <div class="col-md-1">
+
+            </div>
+            <input id="btnSalvarMorador" type="button" value="Salvar Morador" onclick="Apartamento.SalvarMorador()" class="btn btn-default" />
+        </div>
+
+    </div>
+
+    <table class="table table-hover" style="background: #fff">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.cpf)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.data_nascimento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.telefone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.id_apartamento)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.cpf)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.data_nascimento)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.telefone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.id_apartamento)
+                </td>
+                <td>
+                    <a href="#" onclick="Apartamento.CarregarMorador('@item.id', '@item.id_apartamento')">Editar</a>
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
+
